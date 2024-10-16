@@ -13,7 +13,7 @@ console = Console()
 
 MAX_SIZE = 500_000_000
 TEMP_DIR = "./album/"
-MODE = 1 # 0: 128k, 1: 256k
+MODE = 0 # 0: 128k, 1: 256k
 SAMPLE_RATES = {
     0: '128k',
     1: '256k'
