@@ -1,6 +1,7 @@
 import os
 import subprocess
 import shutil
+import ftplib
 
 os.system('cls')
 
@@ -92,17 +93,18 @@ print()
 cover = input("Please provide an album cover: ")
 if cover != "":
     source = sanitise(cover)
-    shutil.copyfile(source,f"{TEMP_DIR}{calculateOutputName(source+'-')}")
+    dest = f"{TEMP_DIR}{calculateOutputName(source+'-')}"
+    shutil.copyfile(source,dest)
+    songs.insert(0,dest)
 
 print()
 print()
-text = Text.assemble(('NOW PLEASE CONNECT TO THE PROGRAMMERS WIRELESS NETWORK', "red3"))
+text = Text.assemble(('PLEASE CONNECT TO THE PROGRAMMERS WIRELESS NETWORK', "red3"))
 console.print(text)
 text = Text.assemble(("press enter when you're ready", "green"))
 console.print(text)
 input()
 
-import ftplib
 
 text = Text.assemble(("connecting to programmer...", "deep_sky_blue1"))
 console.print(text)
@@ -111,6 +113,7 @@ session = ftplib.FTP('192.168.0.4')
 
 from rich.progress import track
 
+print("Starting Upload, this may take a while depending on sound quantity and size")
 for i in track(range(len(songs)), description="Uploading..."):
     with open(songs[i],'rb') as file:
         session.storbinary(f'STOR {songs[i].replace(TEMP_DIR,"")}',file)
