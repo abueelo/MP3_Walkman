@@ -113,7 +113,7 @@ session = ftplib.FTP('192.168.0.4')
 
 from rich.progress import track
 
-print("Starting Upload, this may take a while depending on sound quantity and size")
+print("Starting Upload, this may take a while depending on song quantity and quality")
 for i in track(range(len(songs)), description="Uploading..."):
     with open(songs[i],'rb') as file:
         session.storbinary(f'STOR {songs[i].replace(TEMP_DIR,"")}',file)
