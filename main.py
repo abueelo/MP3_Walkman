@@ -99,27 +99,31 @@ if cover != "":
 
 print()
 print()
-text = Text.assemble(('PLEASE CONNECT TO THE PROGRAMMERS WIRELESS NETWORK', "red3"))
+text = Text.assemble(('PLEASE CONNECT TO THE PROGRAMMERS WIRELESS NETWORK, it may take a while to connect', "red3"))
 console.print(text)
-text = Text.assemble(("press enter when you're ready", "green"))
+text = Text.assemble(("\npress enter when you're ready", "green"))
 console.print(text)
 input()
 
+while True:
+    try:
+        text = Text.assemble(("connecting to programmer...", "deep_sky_blue1"))
+        console.print(text)
+        session = ftplib.FTP('192.168.0.4')
 
-text = Text.assemble(("connecting to programmer...", "deep_sky_blue1"))
-console.print(text)
+        from rich.progress import track
 
-session = ftplib.FTP('192.168.0.4')
+        print("Starting Upload, this may take a while depending on song quantity and quality")
+        for i in track(range(len(songs)), description="Uploading..."):
+            with open(songs[i],'rb') as file:
+                session.storbinary(f'STOR {songs[i].replace(TEMP_DIR,"")}',file)
 
-from rich.progress import track
-
-print("Starting Upload, this may take a while depending on song quantity and quality")
-for i in track(range(len(songs)), description="Uploading..."):
-    with open(songs[i],'rb') as file:
-        session.storbinary(f'STOR {songs[i].replace(TEMP_DIR,"")}',file)
-
-session.quit()
-
+        session.quit()
+        break
+    except Exception as e:
+        print("\nFailed to connect to programmer")
+        print("Press enter to try again")
+        input()
 
 
 shutil.rmtree(TEMP_DIR)
