@@ -11,7 +11,7 @@ from rich.text import Text
 console = Console()
 
 
-MAX_SIZE = 6_000_000#500_000_000
+MAX_SIZE = 500_000_000
 TEMP_DIR = "./album/"
 MODE = 0 # 0: 128k, 1: 256k
 SAMPLE_RATES = {
