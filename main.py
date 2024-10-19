@@ -11,7 +11,7 @@ from rich.text import Text
 console = Console()
 
 
-MAX_SIZE = 500_000_000
+MAX_SIZE = 6_000_000#500_000_000
 TEMP_DIR = "./album/"
 MODE = 0 # 0: 128k, 1: 256k
 SAMPLE_RATES = {
@@ -75,7 +75,16 @@ while True:
         
         songs.append(f"{TEMP_DIR}{output}")
         sizes.append(os.path.getsize(f"{TEMP_DIR}{output}"))
-        albumSize+=os.path.getsize(os.path.abspath(f"{TEMP_DIR}{output}"))
+
+        if os.path.getsize(f"{TEMP_DIR}{output}")+albumSize > MAX_SIZE:
+            songs.pop()
+            sizes.pop()
+            os.remove(f"{TEMP_DIR}{output}")
+            text = Text.assemble(("ERROR: file too big. press enter to continue", "red1"))
+            console.print(text)
+            input()
+        else:
+            albumSize+=os.path.getsize(os.path.abspath(f"{TEMP_DIR}{output}"))
 
         os.system('cls')
     else:
